@@ -67,17 +67,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 message: document.getElementById('message').value
             };
 
-            // For GitHub Pages (Static Site), we use mailto as the backend is not deployed
-            // This ensures the form works without a server
-            const mailtoLink = `mailto:aleenaannvarghese29@gmail.com?subject=Portfolio Contact from ${formData.name}&body=Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
+            // CONSTANT: Update this URL after deploying your backend to Render/Railway
+            // Example: https://my-portfolio-backend.onrender.com/send-email
+            const BACKEND_URL = 'http://localhost:3000/send-email';
 
-            window.location.href = mailtoLink;
+            try {
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
 
-            alert('Your email client has been opened to send this message.');
-            contactForm.reset();
+                const result = await response.json();
 
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
+                if (result.success) {
+                    alert('Message sent successfully!');
+                    contactForm.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Connection failed. Please check if the backend is running or deployed.');
+            } finally {
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+            }
         });
     }
 });
