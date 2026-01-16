@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // CONSTANT: Update this URL after deploying your backend to Render/Railway
             // Example: https://my-portfolio-backend.onrender.com/send-email
-            const BACKEND_URL = 'http://localhost:3000/send-email';
+            const BACKEND_URL = 'https://aleenavarghese29-github-io.onrender.com/send-email';
 
             try {
                 const response = await fetch(BACKEND_URL, {
