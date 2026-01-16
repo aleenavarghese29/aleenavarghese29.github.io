@@ -5,10 +5,7 @@ node_modules/
 .env
 .env.local
 
-# Backend Files (Do not upload to GitHub Pages)
-server.js
-package.json
-package-lock.json
+
 
 # System Files
 .DS_Store
