@@ -40,6 +40,11 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Basic Root Route to check if server is running
+app.get('/', (req, res) => {
+    res.send('Portfolio Backend is running successfully!');
+});
+
 // API Endpoint
 app.post('/send-email', async (req, res) => {
     const { name, email, message } = req.body;
