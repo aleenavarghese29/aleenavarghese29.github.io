@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                // Account for fixed header height
                 const headerOffset = 70;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -50,8 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
     // Contact Form Handler
     const contactForm = document.getElementById('contactForm');
+
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -67,9 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 message: document.getElementById('message').value
             };
 
-            // CONSTANT: Update this URL after deploying your backend to Render/Railway
-            // Example: https://my-portfolio-backend.onrender.com/send-email
-            const BACKEND_URL = 'https://aleenavarghese29-github-io.onrender.com/send-email';
+            const BACKEND_URL = 'https://aleena-portfolio-api.onrender.com/send-email';
 
             try {
                 const response = await fetch(BACKEND_URL, {
@@ -80,6 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(formData)
                 });
 
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}`);
+                }
+
                 const result = await response.json();
 
                 if (result.success) {
@@ -88,9 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     alert('Error: ' + result.message);
                 }
+
             } catch (error) {
-                console.error('Error:', error);
-                alert('Connection failed. Please check if the backend is running or deployed.');
+                console.error('Fetch error:', error);
+                alert('Unable to connect to the server. Please try again in a few seconds.');
+
             } finally {
                 submitBtn.innerText = originalBtnText;
                 submitBtn.disabled = false;
